@@ -1,0 +1,36 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - app_network
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_URI=mongodb://mongo:27017/mydatabase
+    depends_on:
+      - mongo
+    networks:
+      - app_network
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app_network
+
+volumes:
+  mongo-data:
+
+networks:
+  app_network:
+    # Removed driver definition, as it is not needed in the latest versions of Docker Compose

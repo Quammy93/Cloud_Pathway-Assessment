@@ -38,3 +38,20 @@ Contributions are welcome! See the specific README files in the `frontend/` and 
 ## Snapshots
 
 <img src="./Frontend/src/assets/home-snapshot.png" alt="home page"/>
+
+
+# 3-Tier Dockerized Application
+
+This repository contains a Dockerized 3-tier application with Frontend, Backend, and MongoDB.
+
+## Prerequisites
+- Docker
+- Docker Compose
+
+## Setup Instructions
+
+1. Clone the repository:
+   ```bash
+   git clone <repo_url>
+   cd project
+
