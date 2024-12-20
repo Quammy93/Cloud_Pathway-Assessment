@@ -1,4 +1,4 @@
-# Use a lightweight Node.js image as the base
+# Build Stage
 FROM node:18-alpine AS build
 
 # Set the working directory in the container
@@ -7,20 +7,20 @@ WORKDIR /app
 # Copy package.json and package-lock.json for dependency installation
 COPY package*.json ./
 
-# Install dependencies for the frontend
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the frontend code into the container
+# Copy the rest of the application code
 COPY . .
 
-# Build the production-ready frontend files
+# Build the production files using Vite
 RUN npm run build
 
-# Use Nginx to serve the built frontend files
+# Serve Stage
 FROM nginx:alpine AS serve
 
-# Copy the built files from the previous stage to the Nginx HTML directory
-COPY --from=build /app/build /usr/share/nginx/html
+# Copy the Vite build output to Nginx's default HTML directory
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Expose port 80 for the container
 EXPOSE 80

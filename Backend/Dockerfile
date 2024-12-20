@@ -1,29 +1,20 @@
-# Use a lightweight Node.js image as the base
-FROM node:18-alpine AS build
+# Use a lightweight Node.js image
+FROM node:18-alpine
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json for dependency installation
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies for the frontend
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the frontend code into the container
+# Copy the application code
 COPY . .
 
-# Build the production-ready frontend files
-#RUN npm run build
+# Expose the port your app listens on
+EXPOSE 3000
 
-# Use Nginx to serve the built frontend files
-FROM nginx:alpine AS serve
-
-# Copy the built files from the previous stage to the Nginx HTML directory
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Expose port 80 for the container
-EXPOSE 80
-
-# Start the Nginx server
-CMD ["nginx", "-g", "daemon off;"]
+# Start the application
+CMD ["npm", "start"]
